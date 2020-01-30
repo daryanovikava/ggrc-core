@@ -110,3 +110,11 @@ class PersonTreeItemThreeBbbs(InfoWidgetThreeBbbs):
   def select_edit_authorizations(self):
     """Selects `Edit Authorizations` option."""
     self._three_bbs.option_by_text("Edit System Authorizations").click()
+
+
+class ProjectInfoWidgetThreeBbbs(InfoWidgetThreeBbbs):
+  """3bbs element for Project info widget."""
+
+
+class KeyReportInfoWidgetThreeBbbs(InfoWidgetThreeBbbs):
+  """3bbs element for Key Report info widget."""

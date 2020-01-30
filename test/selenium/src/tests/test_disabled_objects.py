@@ -20,7 +20,7 @@ class TestDisabledObjects(base.Test):
   # pylint: disable=unused-argument
 
   @pytest.mark.smoke_tests
-  @pytest.mark.parametrize("obj", objects.SINGULAR_DISABLED_CONTROL_AND_RISK,
+  @pytest.mark.parametrize("obj", objects.SINGULAR_DISABLED_OBJS,
                            indirect=True)
   def test_cannot_edit_or_del_disabled_obj_from_info_page(
       self, obj, selenium, soft_assert
@@ -36,7 +36,7 @@ class TestDisabledObjects(base.Test):
     soft_assert.assert_expectations()
 
   @pytest.mark.smoke_tests
-  @pytest.mark.parametrize("obj", objects.SINGULAR_DISABLED_CONTROL_AND_RISK,
+  @pytest.mark.parametrize("obj", objects.SINGULAR_DISABLED_OBJS,
                            indirect=True)
   def test_cannot_edit_disabled_object_from_tree_view(self, obj, selenium,):
     """Confirm that user cannot edit disabled object from tree view."""
@@ -45,7 +45,7 @@ class TestDisabledObjects(base.Test):
         "Edit option should not be available for disabled object in tree view")
 
   @pytest.mark.smoke_tests
-  @pytest.mark.parametrize("obj", objects.SINGULAR_DISABLED_CONTROL_AND_RISK,
+  @pytest.mark.parametrize("obj", objects.SINGULAR_DISABLED_OBJS,
                            indirect=True)
   def test_cannot_edit_or_del_disabled_obj_from_gl_search(
       self, obj, header_dashboard, soft_assert

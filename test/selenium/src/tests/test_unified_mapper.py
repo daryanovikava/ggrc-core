@@ -45,7 +45,7 @@ class TestProgramPage(base.Test):
         sorted(expected_controls), sorted(actual_controls),
         *Representation.tree_view_attrs_to_exclude)
 
-  @pytest.mark.parametrize("obj", objects.DISABLED_CONTROLS_RISKS)
+  @pytest.mark.parametrize("obj", objects.ALL_TESTABLE_DISABLED_OBJS)
   def test_cannot_create_disabled_obj_from_mapper(self, obj, program,
                                                   soft_assert, selenium):
     """Check that 'New object' modal is not opened when creator adds
