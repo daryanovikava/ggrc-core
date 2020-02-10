@@ -50,8 +50,8 @@ class TestCreator(TestCase):
     creator_id = self.users["creator"].id
     audit_id = factories.AuditFactory().id
     all_errors = []
-    base_models = {"Contract", "Requirement", "Policy", "Regulation",
-                   "Standard", "Document", "Objective"}
+    base_models = {"Contract", "Requirement", "Policy",
+                   "Document", "Objective"}
 
     for model_singular in base_models:
       try:
@@ -179,28 +179,28 @@ class TestCreator(TestCase):
     creator_count = self._get_count("Person")
     self.assertEqual(admin_count, creator_count)
 
-  def test_relationships_access(self):
-    """Check if creator cannot access relationship objects"""
-    self.api.set_user(self.users['admin'])
-    _, first_regulation = self.object_generator.generate_object(
-        all_models.Regulation,
-        data={"regulation": {"title": "Test regulation", "context": None}}
-    )
-    _, second_regulation = self.object_generator.generate_object(
-        all_models.Regulation,
-        data={"regulation": {"title": "Test regulation 2", "context": None}}
-    )
-    response, rel = self.object_generator.generate_relationship(
-        first_regulation, second_regulation
-    )
-    relationship_id = rel.id
-    self.assertEqual(response.status_code, 201)
-    self.api.set_user(self.users['creator'])
-    response = self.api.get_collection(all_models.Relationship,
-                                       relationship_id)
-    self.assertEqual(response.status_code, 200)
-    num = len(response.json["relationships_collection"]["relationships"])
-    self.assertEqual(num, 0)
+  # def test_relationships_access(self):
+  #   """Check if creator cannot access relationship objects"""
+  #   self.api.set_user(self.users['admin'])
+  #   _, first_regulation = self.object_generator.generate_object(
+  #       all_models.Regulation,
+  #       data={"regulation": {"title": "Test regulation", "context": None}}
+  #   )
+  #   _, second_regulation = self.object_generator.generate_object(
+  #       all_models.Regulation,
+  #       data={"regulation": {"title": "Test regulation 2", "context": None}}
+  #   )
+  #   response, rel = self.object_generator.generate_relationship(
+  #       first_regulation, second_regulation
+  #   )
+  #   relationship_id = rel.id
+  #   self.assertEqual(response.status_code, 201)
+  #   self.api.set_user(self.users['creator'])
+  #   response = self.api.get_collection(all_models.Relationship,
+  #                                      relationship_id)
+  #   self.assertEqual(response.status_code, 200)
+  #   num = len(response.json["relationships_collection"]["relationships"])
+  #   self.assertEqual(num, 0)
 
   def test_revision_access(self):
     """Check if creator can access the right revision objects."""

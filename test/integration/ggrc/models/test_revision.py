@@ -54,11 +54,12 @@ class TestRevisions(query_helper.WithQueryApi, TestCase):
 
   def test_revisions(self):
     """ Test revision creation for POST and PUT """
-    cls = ggrc.models.Regulation
+    cls = ggrc.models.Issue
     name = cls._inflector.table_singular  # pylint: disable=protected-access
     _, obj = self.gen.generate(cls, name, {name: {
         "title": "revisioned v1",
         "context": None,
+        "due_date": "2020-1-1",
     }})
     revisions = _get_revisions(obj)
     self.assertEqual(len(revisions), 1)
@@ -67,6 +68,7 @@ class TestRevisions(query_helper.WithQueryApi, TestCase):
         "slug": obj.slug,
         "title": "revisioned v2",
         "context": None,
+        "due_date": "2020-1-1",
     }})
     revisions = _get_revisions(obj)
     expected = {("created", "revisioned v1"), ("modified", "revisioned v2")}
@@ -75,17 +77,19 @@ class TestRevisions(query_helper.WithQueryApi, TestCase):
 
   def test_relevant_revisions(self):
     """ Test revision creation for mapping to an object """
-    cls = ggrc.models.Regulation
+    cls = ggrc.models.Issue
     name = cls._inflector.table_singular  # pylint: disable=protected-access
 
     _, obj1 = self.gen.generate(cls, name, {name: {
         "title": "connected 1",
         "context": None,
+        "due_date": "2020-1-1",
     }})
 
     _, obj2 = self.gen.generate(cls, name, {name: {
         "title": "connected 2",
         "context": None,
+        "due_date": "2020-1-1",
     }})
 
     rel_data = {
