@@ -18,4 +18,16 @@ class TestObjectsImport(base.Test):
     expected_list = sorted([objects.get_normal_form(obj_name)
                             for obj_name in list(objects.IMPORTABLE_OBJECTS) +
                             [download_template.SELECT_ALL_OPTION]])
-    assert webui_facade.get_available_templates_list() == expected_list
+    available_templates = webui_facade.get_available_templates_list()
+    self.check_ggrc_8489(available_templates)
+    assert available_templates == expected_list
+
+  @classmethod
+  def check_ggrc_8489(cls, available_templates):
+    """Checks if Regulations and Standards are not visible in an available for
+    import templates."""
+    cls.check_xfail_or_fail(
+        len([obj for obj in objects.STANDARDS_AND_REGULATIONS if
+             objects.get_normal_form(obj) in available_templates]) == 0,
+        "GGRC-8489.\n", "Regulations and Standards should not be visible when "
+                        "disabled.")
